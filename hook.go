@@ -74,36 +74,5 @@ func (rcv *PromtailHook) LokiHealthCheck() error {
 	return nil
 }
 
-func matchLogLevels(logrusLevel logrus.Level) (promtail.Level, error) {
-	var (
-		matchedPromtailLevel promtail.Level
-		err                  error
-	)
-
-	switch logrusLevel {
-	case logrus.PanicLevel:
-		matchedPromtailLevel = promtail.Panic
-	case logrus.FatalLevel:
-		matchedPromtailLevel = promtail.Fatal
-	case logrus.ErrorLevel:
-		matchedPromtailLevel = promtail.Error
-	case logrus.WarnLevel:
-		matchedPromtailLevel = promtail.Warn
-	case logrus.InfoLevel:
-		matchedPromtailLevel = promtail.Info
-	case logrus.DebugLevel, logrus.TraceLevel:
-		matchedPromtailLevel = promtail.Debug
-	default:
-		err = fmt.Errorf("entry has unmatched logrus log level [level=%s]",
-			logrusLevel.String())
-	}
-
-	if err != nil {
-		return matchedPromtailLevel, err
-	}
-
-	return matchedPromtailLevel, nil
-}
-
 // Compile time validation
 var _ logrus.Hook = (*PromtailHook)(nil)
